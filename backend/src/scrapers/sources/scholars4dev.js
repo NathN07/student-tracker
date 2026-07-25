@@ -27,8 +27,28 @@ const CATEGORY = 'scholarship';
 export async function fetchItems() {
   const { data: xml } = await axios.get(FEED_URL, {
     timeout: 10000,
-    headers: { 'User-Agent': 'Mozilla/5.0 (compatible; StudentTrackerBot/1.0)' },
+    headers: {
+      // A more complete browser-like header set — some WordPress sites
+      // (often via Cloudflare) silently serve an empty/challenge page to
+      // requests that look like bots (e.g. missing Accept/Referer), rather
+      // than an outright error. This makes the request look like a normal
+      // browser visit to reduce the chance of that happening.
+      'User-Agent':
+        'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
+      Accept: 'application/rss+xml, application/xml, text/xml, */*',
+      Referer: 'https://www.scholars4dev.com/',
+    },
   });
+
+  // Sanity check: a real RSS feed always contains an <rss> or <channel> tag.
+  // If we got something else (e.g. an HTML bot-challenge page), fail loudly
+  // here instead of silently reporting "found 0" — that's much easier to
+  // diagnose from the scrape logs.
+  if (typeof xml !== 'string' || !xml.includes('<rss')) {
+    throw new Error(
+      'Response did not look like a valid RSS feed (possibly blocked or challenged by the server)'
+    );
+  }
 
   const $ = cheerio.load(xml, { xmlMode: true });
   const items = [];
