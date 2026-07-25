@@ -1,0 +1,26 @@
+{
+  "name": "student-tracker-backend",
+  "version": "0.1.0",
+  "description": "Backend for Open-Data Student Academic & Opportunity Tracker",
+  "main": "src/server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js",
+    "scrape": "node src/scrapers/runner.js",
+    "seed": "node src/dev/seed.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "mongoose": "^8.5.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "node-cron": "^3.0.3",
+    "cheerio": "^1.0.0",
+    "axios": "^1.7.2",
+    "chrono-node": "^2.7.6"
+  },
+  "devDependencies": {
+    "puppeteer": "^22.13.1"
+  }
+}
