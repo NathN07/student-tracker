@@ -5,12 +5,12 @@ import { normalizeAndSave, deactivateExpired } from './normalizer.js';
 import ScrapeLog from '../models/ScrapeLog.js';
 
 // Register every adapter here. Adding a new source = one import + one line.
-import * as exampleRssSource from './sources/example-rss-source.js';
 import * as devpostHackathons from './sources/devpost-hackathons.js';
+import * as scholars4dev from './sources/scholars4dev.js';
 
 const SOURCES = [
-  { name: 'example-rss-source', adapter: exampleRssSource }, // still a placeholder — see file comments
   { name: 'devpost-hackathons', adapter: devpostHackathons }, // real, live data
+  { name: 'scholars4dev', adapter: scholars4dev }, // real, live data
 ];
 
 async function runAllSources() {
