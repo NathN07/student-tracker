@@ -6,11 +6,15 @@ import ScrapeLog from '../models/ScrapeLog.js';
 
 // Register every adapter here. Adding a new source = one import + one line.
 import * as devpostHackathons from './sources/devpost-hackathons.js';
-import * as scholars4dev from './sources/scholars4dev.js';
+// import * as scholars4dev from './sources/scholars4dev.js';
+// ^ Disabled for now: this feed silently returns 0 items when fetched from
+// cloud/datacenter IPs (like GitHub Actions runners) even though it serves
+// real content normally — a common anti-bot pattern. The adapter file is
+// left in place in case a workaround (e.g. a different fetch method, or a
+// genuinely open India-specific source) is found later.
 
 const SOURCES = [
   { name: 'devpost-hackathons', adapter: devpostHackathons }, // real, live data
-  { name: 'scholars4dev', adapter: scholars4dev }, // real, live data
 ];
 
 async function runAllSources() {
